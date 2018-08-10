@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="vieport" content="width=device-width,initial-scale=1.0">
+    <title>ChatMe</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-12">
+                <h1 class="text-center">
+                    ChatMe
+                    <button class="btn btn-danger" id="clear">Clear</button>
+                </h1>
+                <div id="status"></div>
+                <div id="chat">
+                    <input type="text" class="form-control" id="username" placeholder="Enter your name">
+                    <br>
+                    <div class="card">
+                        <div class="card-block" id="messages">
+
+                        </div>
+                    </div>
+                    <br>
+                    <textarea  id="textarea" class="form-control" cols="100" rows="3" placeholder="Enter your message"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
+    <script>
+        (function() {
+            var element = function(id) {
+                return document.getElementById(id);
+            }
+            var status = element('status');
+            var messages = element('messages');
+            var textarea = element('textarea');
+            var username = element('username');
+            var clearButton = element('clear');
+
+            var statusDefault = status.innerText;
+
+            var setStatus = function(s) {
+                status.innerText = s;
+
+                if (s != statusDefault) {
+                    var delay = setTimeout(function() {
+                        setStatus(statusDefault);
+                    }, 4000);
+                }
+            }
+
+            var socket = io.connect('http://127.0.0.1:4000');
+
+            if (socket !== undefined) {
+                console.log('Connected to socket!');
+            }
+        })();
+
+    </script>
+</body>
+</html>
